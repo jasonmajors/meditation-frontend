@@ -1,25 +1,50 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import './App.css';
+import NavBar from './components/NavBar';
+import MeditationGridList from './components/MeditationGridList';
 
 class App extends Component {
+  meditations() {
+    // TODO: Fetch from firebase
+    return [
+      {
+        id: 0,
+        img: 'https://material-ui.com/static/images/grid-list/burgers.jpg',
+        title: 'Get big, Get dank',
+        description: 'Let us guide you through being dope',
+      },
+      {
+        id: 1,
+        img: 'https://material-ui.com/static/images/grid-list/honey.jpg',
+        title: 'Mother. Fucking. Honey.',
+        description: 'Get the Honey',
+      },
+      {
+        id: 2,
+        img: 'https://material-ui.com//static/images/grid-list/hats.jpg',
+        title: 'Hats. What are they and why?',
+        description: "Just don't wear hats",
+      },
+      {
+        id: 3,
+        img: 'https://material-ui.com/static/images/grid-list/vegetables.jpg',
+        title: 'Veggies... should you eat them?',
+        description: 'Yeah you should probably eat them',
+      },
+      {
+        id: 7,
+        img: 'https://material-ui.com/static/images/grid-list/star.jpg',
+        title: 'Starfish',
+        description: 'No',
+      },
+    ]
+  }
+
   render() {
     return (
       <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
+        <NavBar title="Knurling" />
+        <MeditationGridList tileData={this.meditations()} />
       </div>
     );
   }
