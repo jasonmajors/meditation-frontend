@@ -11,6 +11,7 @@ import IconButton from '@material-ui/core/IconButton';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
+import NewMeditationForm from './NewMeditationForm';
 
 const styles = {
   root: {

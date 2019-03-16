@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import './App.css';
 import NavBar from './components/NavBar';
+import NewMeditationForm from './components/NewMeditationForm';
 import MeditationGridList from './components/MeditationGridList';
 
 class App extends Component {
@@ -45,6 +46,7 @@ class App extends Component {
       <div className="App">
         <NavBar title="Knurling" />
         <MeditationGridList tileData={this.meditations()} />
+        <NewMeditationForm />
       </div>
     );
   }
