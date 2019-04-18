@@ -14,6 +14,7 @@ import BarChartIcon from '@material-ui/icons/BarChart';
 import PlayListAddIcon from '@material-ui/icons/PlaylistAdd';
 import SettingsIcon from '@material-ui/icons/Settings';
 import PowerSettingsNewIcon from '@material-ui/icons/PowerSettingsNew';
+import { Link } from 'react-router-dom'
 
 const styles = {
   list: {
@@ -59,14 +60,16 @@ class SwipeableMenu extends React.Component {
         <Divider />
         <List>
           {[
-            {text: 'New Meditation', icon: <PlayListAddIcon />},
-            {text: 'Settings', icon: <SettingsIcon />},
-            {text: 'Logout', icon: <PowerSettingsNewIcon />},
+            {text: 'New Meditation', icon: <PlayListAddIcon />, link: '/submit'},
+            {text: 'Settings', icon: <SettingsIcon />, link: '/'},
+            {text: 'Logout', icon: <PowerSettingsNewIcon />, link: '/'},
           ].map((item, index) => (
-            <ListItem button key={item.text}>
-              <ListItemIcon>{ item.icon }</ListItemIcon>
-              <ListItemText primary={item.text} />
-            </ListItem>
+            <Link to={item.link} style={{ textDecoration: 'none' }}>
+              <ListItem button key={item.text}>
+                <ListItemIcon>{ item.icon }</ListItemIcon>
+                <ListItemText primary={item.text} />
+              </ListItem>
+            </Link>
           ))}
         </List>
       </div>

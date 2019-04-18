@@ -1,13 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Button from '@material-ui/core/Button';
-import Dialog from '@material-ui/core/Dialog';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import IconButton from '@material-ui/core/IconButton';
-import MusicNote from '@material-ui/icons/MusicNote';
-import Typography from '@material-ui/core/Typography';
-import CloseIcon from '@material-ui/icons/Close';
 import Slide from '@material-ui/core/Slide';
 import TextField from '@material-ui/core/TextField';
 import { withStyles } from '@material-ui/core/styles';
@@ -36,7 +29,7 @@ function Transition(props) {
   return <Slide direction="up" {...props} />;
 }
 
-class NewMeditationForm extends React.Component {
+class MeditationSubmit extends React.Component {
   constructor(props) {
     super(props);
 
@@ -109,35 +102,6 @@ class NewMeditationForm extends React.Component {
 
     return (
       <div>
-        <IconButton
-          className={classes.button}
-          variant="contained"
-          color="inherit"
-          onClick={this.handleClickOpen}
-          >
-            <MusicNote />
-            New Shit
-            <MusicNote />
-        </IconButton>
-        <Dialog
-          fullScreen
-          open={this.state.open}
-          onClose={this.handleClose}
-          TransitionComponent={Transition}
-        >
-          <AppBar className={classes.appBar}>
-            <Toolbar>
-              <IconButton color="inherit" onClick={this.handleClose} aria-label="Close">
-                <CloseIcon />
-              </IconButton>
-              <Typography variant="h6" color="inherit" className={classes.flex}>
-                New Meditation
-              </Typography>
-              <Button color="inherit" onClick={this.handleSubmit}>
-                save
-              </Button>
-            </Toolbar>
-          </AppBar>
           <form className={classes.container} autoComplete="off">
             <TextField
               required
@@ -174,15 +138,14 @@ class NewMeditationForm extends React.Component {
               </Button>
             </div>
           </form>
-        </Dialog>
       </div>
     );
   }
 }
 
-NewMeditationForm.propTypes = {
+MeditationSubmit.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default withFirebase(withStyles(styles)(NewMeditationForm));
+export default withFirebase(withStyles(styles)(MeditationSubmit));
 
