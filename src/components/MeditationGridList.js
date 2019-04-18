@@ -4,9 +4,10 @@ import { withStyles } from '@material-ui/core/styles';
 import GridList from '@material-ui/core/GridList';
 import GridListTile from '@material-ui/core/GridListTile';
 import GridListTileBar from '@material-ui/core/GridListTileBar';
-import ListSubheader from '@material-ui/core/ListSubheader';
 import IconButton from '@material-ui/core/IconButton';
 import PlayArrowIcon from '@material-ui/icons/PlayArrow';
+import gql from 'graphql-tag';
+import { Query } from 'react-apollo';
 
 const styles = theme => ({
   root: {
@@ -21,64 +22,57 @@ const styles = theme => ({
   },
 });
 
-function meditations() {
-  // TODO: Fetch from API
-  return [
-    {
-      id: 0,
-      img: 'https://material-ui.com/static/images/grid-list/burgers.jpg',
-      title: 'Get big, Get dank',
-      description: 'Let us guide you through being dope',
-    },
-    {
-      id: 1,
-      img: 'https://material-ui.com/static/images/grid-list/honey.jpg',
-      title: 'Mother. Fucking. Honey.',
-      description: 'Get the Honey',
-    },
-    {
-      id: 2,
-      img: 'https://material-ui.com//static/images/grid-list/hats.jpg',
-      title: 'Hats. What are they and why?',
-      description: "Just don't wear hats",
-    },
-    {
-      id: 3,
-      img: 'https://material-ui.com/static/images/grid-list/vegetables.jpg',
-      title: 'Veggies... should you eat them?',
-      description: 'Yeah you should probably eat them',
-    },
-    {
-      id: 7,
-      img: 'https://material-ui.com/static/images/grid-list/star.jpg',
-      title: 'Starfish',
-      description: 'No',
-    },
-  ]
+const MEDITATION_QUERY = gql`
+  {
+    meditations {
+      id
+      title
+      description
+      img_url
+      audio_url
+    }
+  }
+`;
+
+const getMeditations = (data) => {
+  return data.meditations;
 }
 
 function TitlebarGridList(props) {
   const { classes } = props;
 
   return (
-    <div className={classes.root}>
-      <GridList cellHeight={115} spacing={3}>
-        {meditations().map(tile => (
-          <GridListTile key={tile.id} cols={2} rows={1}>
-            <img src={tile.img} alt={tile.title} />
-            <GridListTileBar
-              title={tile.title}
-              subtitle={<span>{tile.description}</span>}
-              actionIcon={
-                <IconButton className={classes.icon}>
-                  <PlayArrowIcon />
-                </IconButton>
-              }
-            />
-          </GridListTile>
-        ))}
-      </GridList>
-    </div>
+    <Query query={MEDITATION_QUERY}>
+      {
+        ({loading, error, data }) => {
+          if (loading) return <div>Fetching</div>
+          if (error) return <div>Error</div>
+
+          const meditations = getMeditations(data)
+
+          return (
+            <div className={classes.root}>
+              <GridList cellHeight={115} spacing={3}>
+                {meditations.map(tile => (
+                  <GridListTile key={tile.id} cols={2} rows={1}>
+                    <img src={tile.img_url} alt={tile.title} />
+                    <GridListTileBar
+                      title={tile.title}
+                      subtitle={<span>{tile.description}</span>}
+                      actionIcon={
+                        <IconButton className={classes.icon}>
+                          <PlayArrowIcon />
+                        </IconButton>
+                      }
+                    />
+                  </GridListTile>
+                ))}
+              </GridList>
+            </div>
+          )
+        }
+      }
+    </Query>
   );
 }
 
