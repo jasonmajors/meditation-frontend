@@ -64,8 +64,8 @@ class SwipeableMenu extends React.Component {
             {text: 'Settings', icon: <SettingsIcon />, link: '/'},
             {text: 'Logout', icon: <PowerSettingsNewIcon />, link: '/'},
           ].map((item, index) => (
-            <Link to={item.link} style={{ textDecoration: 'none' }}>
-              <ListItem button key={item.text}>
+            <Link to={item.link} style={{ textDecoration: 'none' }} key={item.text}>
+              <ListItem button>
                 <ListItemIcon>{ item.icon }</ListItemIcon>
                 <ListItemText primary={item.text} />
               </ListItem>
