@@ -4,13 +4,49 @@ import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import { constants } from '../constants';
 import { LoginStyles } from '../styles/LoginStyles';
+import gql from 'graphql-tag';
+import { Mutation } from 'react-apollo';
+
+const SIGNUP_MUTATION = gql`
+  mutation SignupMutation($email: String!, $password: String!, $name: String!) {
+    signup(email: $email, password: $password, name: $name) {
+      token
+    }
+  }
+`
 
 class Login extends React.Component {
-  signUp() {
-    console.log('hello');
+  state = {
+    login: false,
+    name: null,
+    email: null,
+    password: null
   }
+
+  signUp = () => {
+    console.log(this.state);
+  }
+
+  confirm = async (data) => {
+    const { token } = this.state.login ? data.login : data.signup;
+    this.saveUserData(token);
+    // this.props.history.push(`/`);
+  }
+
+  saveUserData = (token) => {
+    console.log(token);
+    // localStorage.setItem(AUTH_TOKEN, token);
+  }
+
+  getErrorMessage = (message) => {
+    if (message.includes('unique constraint')) {
+      return "We're sorry, that email is taken.";
+    }
+  }
+
   render() {
     const { classes } = this.props;
+    const { name, email, password } = this.state;
     const { TAGLINE, TITLE } = constants;
 
     return (
@@ -24,6 +60,28 @@ class Login extends React.Component {
           </div>
           <div className={classes.formWrapper}>
             <form className={classes.form}>
+            <TextField
+                type="text"
+                name="Name"
+                label="Name"
+                margin="normal"
+                variant="outlined"
+                InputLabelProps={{
+                  classes: {
+                    root: classes.label,
+                    focused: classes.focusedLabel,
+                    error: classes.errorLabel,
+                  }
+                }}
+                InputProps={{
+                  classes: {
+                    notchedOutline: classes.border,
+                    input: classes.input,
+                  }
+                }}
+                fullWidth={true}
+                onChange={e => this.setState({name: e.target.value})}
+              />
               <TextField
                 type="email"
                 name="Email"
@@ -44,6 +102,7 @@ class Login extends React.Component {
                   }
                 }}
                 fullWidth={true}
+                onChange={e => this.setState({email: e.target.value})}
               />
               <TextField
                 type="password"
@@ -65,17 +124,33 @@ class Login extends React.Component {
                   }
                 }}
                 fullWidth={true}
+                onChange={e => this.setState({password: e.target.value})}
               />
-              <Button
-                variant="contained"
-                color="primary"
-                size="large"
-                className={classes.button}
-                fullWidth={true}
-                onClick={this.signUp}
+              <Mutation
+                mutation={SIGNUP_MUTATION}
+                variables={{name, email, password}}
+                onCompleted={data => this.confirm(data)}
+                errorPolicy="all"
               >
-                Sign Up
-              </Button>
+                {(signUp, {loading, error}) => (
+                  <div>
+                    <Button
+                      variant="contained"
+                      color="primary"
+                      size="large"
+                      className={classes.button}
+                      fullWidth={true}
+                      onClick={signUp}
+                    >
+                      Sign Up
+                    </Button>
+                    {loading && <p className={classes.loadingText}>Loading...</p>}
+                    {error && error.graphQLErrors.map(({message}, i) => (
+                      <p className={classes.errorText} key={i}>{this.getErrorMessage(message)}</p>
+                    ))}
+                  </div>
+                )}
+              </Mutation>
               <div className={classes.subtitle}>
                 <p>Already have an account? <span className={classes.signinText}>Sign in</span></p>
               </div>

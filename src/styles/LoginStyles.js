@@ -9,7 +9,7 @@ export const LoginStyles = () => ({
     backgroundSize: 'cover'
   },
   container: {
-    paddingTop: '35%',
+    paddingTop: '32%',
   },
   titleWrapper: {
     display: 'inline-block'
@@ -66,5 +66,13 @@ export const LoginStyles = () => ({
   signinText: {
     fontWeight: 'bold',
     color: '#3f51b5',
+  },
+  loadingText: {
+    fontWeight: '400',
+    color: 'white'
+  },
+  errorText: {
+    fontWeight: 'bold',
+    color: 'red'
   }
 });
