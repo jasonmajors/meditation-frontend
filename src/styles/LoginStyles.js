@@ -1,0 +1,70 @@
+import splash from '../images/splash-darkest.jpg';
+
+export const LoginStyles = () => ({
+  fullscreen: {
+    backgroundImage: `url(${splash})`,
+    height: `100vh`,
+    backgroundPosition: 'center',
+    backgroundRepeat: 'no-repeat',
+    backgroundSize: 'cover'
+  },
+  container: {
+    paddingTop: '35%',
+  },
+  titleWrapper: {
+    display: 'inline-block'
+  },
+  subtitle: {
+    color: 'white',
+    display: 'flex',
+    justifyContent: 'flex-end',
+  },
+  subtitleText: {
+    fontSize: '1.1em',
+    fontWeight: '500',
+    marginBottom: '0px',
+  },
+  title: {
+    color: 'white',
+    textTransform: 'uppercase',
+    fontSize: '4.5em',
+    fontWeight: 'bold',
+  },
+  formWrapper: {
+    display: 'flex',
+    justifyContent: 'center',
+  },
+  form: {
+    width: '90%',
+  },
+  border: {
+    borderColor: 'white !important',
+  },
+  input: {
+    color: 'white !important',
+    fontWeight: '500',
+  },
+  label: {
+    "&$focusedLabel": {
+      color: "white"
+    },
+    "&$erroredLabel": {
+      color: "red"
+    },
+    color: "white"
+  },
+  focusedLabel: {},
+  erroredLabel: {},
+  button: {
+    marginTop: '10px',
+    height: '3.5em',
+    fontWeight: '500',
+  },
+  signin: {
+    color: 'white',
+  },
+  signinText: {
+    fontWeight: 'bold',
+    color: '#3f51b5',
+  }
+});

@@ -1,87 +1,26 @@
 import React from 'react';
-import splash from '../images/splash-darkest.jpg';
 import { withStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
-
-// TODO: Make an import
-const styles = () => ({
-  fullscreen: {
-    backgroundImage: `url(${splash})`,
-    height: `100vh`,
-    backgroundPosition: 'center',
-    backgroundRepeat: 'no-repeat',
-    backgroundSize: 'cover'
-  },
-  container: {
-    paddingTop: '35%',
-  },
-  titleWrapper: {
-    display: 'inline-block'
-  },
-  subtitle: {
-    color: 'white',
-    display: 'flex',
-    justifyContent: 'flex-end',
-  },
-  subtitleText: {
-    fontSize: '1.1em',
-    fontWeight: '500',
-    marginBottom: '0px',
-  },
-  title: {
-    color: 'white',
-    textTransform: 'uppercase',
-    fontSize: '4.5em',
-    fontWeight: 'bold',
-  },
-  formWrapper: {
-    display: 'flex',
-    justifyContent: 'center',
-  },
-  form: {
-    width: '90%',
-  },
-  border: {
-    borderColor: 'white !important',
-  },
-  input: {
-    color: 'white !important',
-    fontWeight: '500',
-  },
-  label: {
-    "&$focusedLabel": {
-      color: "white"
-    },
-    "&$erroredLabel": {
-      color: "red"
-    },
-    color: "white"
-  },
-  focusedLabel: {},
-  erroredLabel: {},
-  button: {
-    marginTop: '10px',
-    height: '3.5em',
-    fontWeight: '500',
-  },
-  signin: {
-    color: 'white',
-  }
-});
+import { constants } from '../constants';
+import { LoginStyles } from '../styles/LoginStyles';
 
 class Login extends React.Component {
+  signUp() {
+    console.log('hello');
+  }
   render() {
     const { classes } = this.props;
+    const { TAGLINE, TITLE } = constants;
 
     return (
       <div className={classes.fullscreen}>
         <div className={classes.container}>
           <div className={classes.titleWrapper}>
             <div className={classes.subtitle}>
-              <p className={classes.subtitleText}>Always be jacked. Always be tan.</p>
+              <p className={classes.subtitleText}>{TAGLINE}</p>
             </div>
-            <div className={classes.title}>Knurling</div>
+            <div className={classes.title}>{TITLE}</div>
           </div>
           <div className={classes.formWrapper}>
             <form className={classes.form}>
@@ -132,11 +71,12 @@ class Login extends React.Component {
                 size="large"
                 className={classes.button}
                 fullWidth={true}
+                onClick={this.signUp}
               >
                 Sign Up
               </Button>
               <div className={classes.subtitle}>
-                <p>Already have an account? Sign in</p>
+                <p>Already have an account? <span className={classes.signinText}>Sign in</span></p>
               </div>
             </form>
           </div>
@@ -146,4 +86,4 @@ class Login extends React.Component {
   }
 }
 
-export default withStyles(styles)(Login);
+export default withStyles(LoginStyles)(Login);
