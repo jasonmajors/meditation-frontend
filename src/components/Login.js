@@ -1,7 +1,8 @@
 import React from 'react';
-import splash from '../images/splash-dark.jpg';
+import splash from '../images/splash-darkest.jpg';
 import { withStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
+import Button from '@material-ui/core/Button';
 
 // TODO: Make an import
 const styles = () => ({
@@ -24,7 +25,7 @@ const styles = () => ({
     justifyContent: 'flex-end',
   },
   subtitleText: {
-    fontSize: '1em',
+    fontSize: '1.1em',
     fontWeight: '500',
     marginBottom: '0px',
   },
@@ -39,7 +40,7 @@ const styles = () => ({
     justifyContent: 'center',
   },
   form: {
-    width: '80%',
+    width: '90%',
   },
   border: {
     borderColor: 'white !important',
@@ -59,11 +60,13 @@ const styles = () => ({
   },
   focusedLabel: {},
   erroredLabel: {},
-  signup: {
-
+  button: {
+    marginTop: '10px',
+    height: '3.5em',
+    fontWeight: '500',
   },
   signin: {
-
+    color: 'white',
   }
 });
 
@@ -123,10 +126,20 @@ class Login extends React.Component {
                 }}
                 fullWidth={true}
               />
+              <Button
+                variant="contained"
+                color="primary"
+                size="large"
+                className={classes.button}
+                fullWidth={true}
+              >
+                Sign Up
+              </Button>
+              <div className={classes.subtitle}>
+                <p>Already have an account? Sign in</p>
+              </div>
             </form>
           </div>
-          <div className={classes.signup}>Sign Up</div>
-          <div className={classes.signin}>Already have an account? Sign in</div>
         </div>
       </div>
     )
