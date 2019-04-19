@@ -1,7 +1,9 @@
 import React from 'react';
 import splash from '../images/splash-dark.jpg';
 import { withStyles } from '@material-ui/core/styles';
+import TextField from '@material-ui/core/TextField';
 
+// TODO: Make an import
 const styles = () => ({
   fullscreen: {
     backgroundImage: `url(${splash})`,
@@ -19,7 +21,12 @@ const styles = () => ({
   subtitle: {
     color: 'white',
     display: 'flex',
-    justifyContent: 'flex-end'
+    justifyContent: 'flex-end',
+  },
+  subtitleText: {
+    fontSize: '1em',
+    fontWeight: '500',
+    marginBottom: '0px',
   },
   title: {
     color: 'white',
@@ -27,9 +34,31 @@ const styles = () => ({
     fontSize: '4.5em',
     fontWeight: 'bold',
   },
-  form: {
-
+  formWrapper: {
+    display: 'flex',
+    justifyContent: 'center',
   },
+  form: {
+    width: '80%',
+  },
+  border: {
+    borderColor: 'white !important',
+  },
+  input: {
+    color: 'white !important',
+    fontWeight: '500',
+  },
+  label: {
+    "&$focusedLabel": {
+      color: "white"
+    },
+    "&$erroredLabel": {
+      color: "red"
+    },
+    color: "white"
+  },
+  focusedLabel: {},
+  erroredLabel: {},
   signup: {
 
   },
@@ -47,15 +76,54 @@ class Login extends React.Component {
         <div className={classes.container}>
           <div className={classes.titleWrapper}>
             <div className={classes.subtitle}>
-              <h3>Always be jacked. Always be Tan.</h3>
+              <p className={classes.subtitleText}>Always be jacked. Always be tan.</p>
             </div>
             <div className={classes.title}>Knurling</div>
           </div>
-          <div className={classes.form}>
-            <input type="text"></input>
-          </div>
-          <div>
-            <input type="password"></input>
+          <div className={classes.formWrapper}>
+            <form className={classes.form}>
+              <TextField
+                type="email"
+                name="Email"
+                label="Email"
+                margin="normal"
+                variant="outlined"
+                InputLabelProps={{
+                  classes: {
+                    root: classes.label,
+                    focused: classes.focusedLabel,
+                    error: classes.errorLabel,
+                  }
+                }}
+                InputProps={{
+                  classes: {
+                    notchedOutline: classes.border,
+                    input: classes.input,
+                  }
+                }}
+                fullWidth={true}
+              />
+              <TextField
+                name="Password"
+                label="Password"
+                margin="normal"
+                variant="outlined"
+                InputLabelProps={{
+                  classes: {
+                    root: classes.label,
+                    focused: classes.focusedLabel,
+                    error: classes.errorLabel,
+                  }
+                }}
+                InputProps={{
+                  classes: {
+                    notchedOutline: classes.border,
+                    input: classes.input,
+                  }
+                }}
+                fullWidth={true}
+              />
+            </form>
           </div>
           <div className={classes.signup}>Sign Up</div>
           <div className={classes.signin}>Already have an account? Sign in</div>
