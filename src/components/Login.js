@@ -46,6 +46,7 @@ class Login extends React.Component {
                 fullWidth={true}
               />
               <TextField
+                type="password"
                 name="Password"
                 label="Password"
                 margin="normal"
