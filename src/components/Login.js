@@ -30,12 +30,12 @@ class Login extends React.Component {
   confirm = async (data) => {
     const { token } = this.state.login ? data.login : data.signup;
     this.saveUserData(token);
-    // this.props.history.push(`/`);
+    this.props.history.push(`/`);
   }
 
   saveUserData = (token) => {
     console.log(token);
-    // localStorage.setItem(AUTH_TOKEN, token);
+    localStorage.setItem(constants.AUTH_TOKEN, token);
   }
 
   getErrorMessage = (message) => {
