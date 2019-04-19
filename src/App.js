@@ -4,12 +4,12 @@ import NavBar from './components/NavBar';
 import MeditationSubmit from './components/MeditationSubmit';
 import { Switch, Route } from 'react-router-dom'
 import MeditationGridList from './components/MeditationGridList';
+import Login from './components/Login';
 
 class App extends Component {
   render() {
     return (
       <div className="App">
-        <NavBar title="Knurling" />
         <div>
           <Switch>
             <Route
@@ -18,6 +18,7 @@ class App extends Component {
               component={MeditationGridList}
               tileData={this.meditations}
             />
+            <Route exact path="/login" component={Login} />
             <Route exact path="/submit" component={MeditationSubmit} />
           </Switch>
         </div>

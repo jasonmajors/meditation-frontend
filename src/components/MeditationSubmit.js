@@ -1,10 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Button from '@material-ui/core/Button';
-import Slide from '@material-ui/core/Slide';
 import TextField from '@material-ui/core/TextField';
 import { withStyles } from '@material-ui/core/styles';
-import { withFirebase } from './Firebase';
+import NavBar from './NavBar';
 
 const styles = theme => ({
   appBar: {
@@ -24,10 +23,6 @@ const styles = theme => ({
     flex: 1,
   },
 });
-
-function Transition(props) {
-  return <Slide direction="up" {...props} />;
-}
 
 class MeditationSubmit extends React.Component {
   constructor(props) {
@@ -102,6 +97,7 @@ class MeditationSubmit extends React.Component {
 
     return (
       <div>
+        <NavBar title="New Meditation" />
           <form className={classes.container} autoComplete="off">
             <TextField
               required
@@ -147,5 +143,5 @@ MeditationSubmit.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default withFirebase(withStyles(styles)(MeditationSubmit));
+export default withStyles(styles)(MeditationSubmit);
 
