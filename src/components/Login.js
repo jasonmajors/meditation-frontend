@@ -15,16 +15,20 @@ const SIGNUP_MUTATION = gql`
   }
 `
 
+const LOGIN_MUTATION = gql`
+  mutation LoginMutation($email: String!, $password: String!) {
+    login(email: $email, password: $password) {
+      token
+    }
+  }
+`
+
 class Login extends React.Component {
   state = {
     login: false,
     name: null,
     email: null,
     password: null
-  }
-
-  signUp = () => {
-    console.log(this.state);
   }
 
   confirm = async (data) => {
@@ -46,7 +50,7 @@ class Login extends React.Component {
 
   render() {
     const { classes } = this.props;
-    const { name, email, password } = this.state;
+    const { name, email, password, login } = this.state;
     const { TAGLINE, TITLE } = constants;
 
     return (
@@ -60,7 +64,8 @@ class Login extends React.Component {
           </div>
           <div className={classes.formWrapper}>
             <form className={classes.form}>
-            <TextField
+            {!login && (
+              <TextField
                 type="text"
                 name="Name"
                 label="Name"
@@ -82,6 +87,7 @@ class Login extends React.Component {
                 fullWidth={true}
                 onChange={e => this.setState({name: e.target.value})}
               />
+            )}
               <TextField
                 type="email"
                 name="Email"
@@ -127,7 +133,7 @@ class Login extends React.Component {
                 onChange={e => this.setState({password: e.target.value})}
               />
               <Mutation
-                mutation={SIGNUP_MUTATION}
+                mutation={login ? LOGIN_MUTATION : SIGNUP_MUTATION}
                 variables={{name, email, password}}
                 onCompleted={data => this.confirm(data)}
                 errorPolicy="all"
@@ -142,7 +148,8 @@ class Login extends React.Component {
                       fullWidth={true}
                       onClick={signUp}
                     >
-                      Sign Up
+                      {login && <span>Login</span>}
+                      {!login && <span>Sign Up</span>}
                     </Button>
                     {loading && <p className={classes.loadingText}>Loading...</p>}
                     {error && error.graphQLErrors.map(({message}, i) => (
@@ -152,7 +159,24 @@ class Login extends React.Component {
                 )}
               </Mutation>
               <div className={classes.subtitle}>
-                <p>Already have an account? <span className={classes.signinText}>Sign in</span></p>
+                {!login && (
+                  <p>Already have an account?
+                    <span
+                      className={classes.signinText}
+                      onClick={e => this.setState({login: !login})}
+                    > Sign in
+                    </span>
+                  </p>
+                )}
+                {login && (
+                  <p>Need an account?
+                    <span
+                      className={classes.signinText}
+                      onClick={e => this.setState({login: !login})}
+                    > Sign up
+                    </span>
+                  </p>
+                )}
               </div>
             </form>
           </div>
