@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import { withStyles } from '@material-ui/core/styles';
 import NavBar from './NavBar';
+import Upload from './Upload';
 
 const styles = theme => ({
   appBar: {
@@ -28,13 +28,10 @@ class MeditationSubmit extends React.Component {
   constructor(props) {
     super(props);
 
-    //this.db = this.props.firebase.db;
     this.state = {
       open: false,
-      name: '',
-      description: '',
-      image: '',
-      audio: '',
+      name: null,
+      description: null,
     };
 
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -103,7 +100,6 @@ class MeditationSubmit extends React.Component {
               required
               name="name"
               label="Name"
-              value={this.state.name}
               onChange={this.handleChange}
               margin="normal"
               fullWidth={true}
@@ -115,24 +111,12 @@ class MeditationSubmit extends React.Component {
               multiline
               rows="4"
               placeholder="Brief description of the chore"
-              value={this.state.description}
               onChange={this.handleChange}
               margin="normal"
               fullWidth={true}
               variant="outlined"
             />
-            <div>
-              <p>Audio file</p>
-              <Button>
-                <input type="file" />
-              </Button>
-            </div>
-            <div>
-            <p>Image</p>
-              <Button>
-                <input type="file" />
-              </Button>
-            </div>
+            <Upload />
           </form>
       </div>
     );
