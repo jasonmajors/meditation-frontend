@@ -4,6 +4,7 @@ import TextField from '@material-ui/core/TextField';
 import { withStyles } from '@material-ui/core/styles';
 import NavBar from './NavBar';
 import Upload from './Upload';
+import axios from 'axios'
 
 const styles = theme => ({
   appBar: {
@@ -30,13 +31,12 @@ class MeditationSubmit extends React.Component {
 
     this.state = {
       open: false,
-      name: null,
+      title: null,
       description: null,
     };
 
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
-    this.frequencyUpdated = this.frequencyUpdated.bind(this);
   };
 
   handleClickOpen = () => {
@@ -52,41 +52,14 @@ class MeditationSubmit extends React.Component {
       [event.target.name]: event.target.value,
     });
   };
-  // TODO: This will receive the "periods", we'll remove frequencySelect... all of that can be handled
-  // inside the FrequencyForm component
-  frequencyUpdated(periods) {
-    console.log(periods);
-    this.setState({
-      periods: periods,
-    });
-  };
 
   handleSubmit(event) {
     // TODO: Need to setup permissions for this to work. Probably need to setup auth.
-    this.saveMeditation(this.state.name, this.state.description, this.state.periods);
+    this.saveMeditation(this.state.title, this.state.description);
     event.preventDefault();
   };
 
-  validate = periods => {
-    periods.forEach(period => {
-      console.log(period);
-    });
-  };
-
-  saveMeditation = (name, description, periods) => {
-    this.validate(periods);
-
-    this.db.collection('chores').add({
-      name: name,
-      description: description,
-      periods: periods,
-    })
-    .then(docRef => {
-      console.log("Document written with ID: ", docRef.id);
-    })
-    .catch(error => {
-      console.error("Error adding document: ", error);
-    });
+  saveMeditation = (name, description) => {
   }
 
   render() {
@@ -98,8 +71,8 @@ class MeditationSubmit extends React.Component {
           <form className={classes.container} autoComplete="off">
             <TextField
               required
-              name="name"
-              label="Name"
+              name="title"
+              label="Title"
               onChange={this.handleChange}
               margin="normal"
               fullWidth={true}

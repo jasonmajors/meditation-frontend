@@ -4,38 +4,33 @@ import Button from '@material-ui/core/Button';
 class Upload extends React.Component {
   constructor(props) {
     super(props)
+    this.imageRef = React.createRef()
+    this.audioRef = React.createRef()
 
     this.state = {
-      files: [],
+      audioFile: null,
+      imageFile: null,
       uploading: false,
     }
-  }
-
-  addFile = (e) => {
-    const files = this.state.files.concat(e.target.value);
-    this.setState({files: files});
   }
 
   uploadFiles = () => {
     this.setState({uploading: true});
 
-    const files = this.state.files;
-    const fileData = new FormData();
+    let fileData = new FormData();
 
-    files.forEach((file, i) => {
-      fileData.append(i, file);
-    });
-    const uploadUrl = process.env.REACT_APP_FILE_UPLOAD_URL;
-    // Make the request
+    fileData.append("image", this.imageRef.current.files[0])
+    fileData.append("audio", this.audioRef.current.files[0])
+
+    const uploadUrl = `${process.env.REACT_APP_FILE_UPLOAD_URL}?token=${process.env.REACT_APP_UPLOAD_TOKEN}`;
     fetch(uploadUrl, {
-      headers: {
-        'Content-Type': 'multipart/form-data'
-      },
       method: 'POST',
       body: fileData
     }).then(res => {
       console.log(res);
-    });
+    }).catch(error => {
+      console.error(error);
+    })
   }
 
   render() {
@@ -45,16 +40,28 @@ class Upload extends React.Component {
         <div>
           <p>Audio file</p>
           <Button>
-            <input type="file" />
+            <input
+              ref={this.audioRef}
+              type="file"
+              // onChange={e => this.setState({audioFile: e.target.value})}
+            />
           </Button>
         </div>
         <div>
           <p>Image</p>
           <Button>
             <input
+              ref={this.imageRef}
               type="file"
-              onChange={this.addFile}
+              // onChange={e => this.setState({imageFile: e.target.value})}
             />
+          </Button>
+        </div>
+        <div>
+          <Button
+            onClick={this.uploadFiles}
+          >
+            Upload
           </Button>
         </div>
       </div>
