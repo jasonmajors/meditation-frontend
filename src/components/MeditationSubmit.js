@@ -4,7 +4,8 @@ import TextField from '@material-ui/core/TextField';
 import { withStyles } from '@material-ui/core/styles';
 import NavBar from './NavBar';
 import Upload from './Upload';
-import { gql, graphql } from 'graphql-tag';
+import gql from 'graphql-tag';
+import { graphql } from 'react-apollo';
 
 const styles = theme => ({
   appBar: {
@@ -25,13 +26,13 @@ const styles = theme => ({
   },
 });
 
-// const MEDITATION_MUTATION = gql`
-//   mutation MeditationMutation($title: String!, $description: String!, $img_url: String!, $audio_url: String!) {
-//     meditation(title: $title, description: $description, img_url: $image_url, audio_url: $audio_url) {
-//       id
-//     }
-//   }
-// `
+const MEDITATION_MUTATION = gql`
+  mutation MeditationMutation($title: String!, $description: String!, $img_url: String!, $audio_url: String!) {
+    meditation(title: $title, description: $description, img_url: $img_url, audio_url: $audio_url) {
+      id
+    }
+  }
+`
 
 class MeditationSubmit extends React.Component {
   constructor(props) {
@@ -43,7 +44,6 @@ class MeditationSubmit extends React.Component {
       description: null,
       imageUrl: null,
       audioUrl: null,
-      uploading: false,
     };
 
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -79,13 +79,23 @@ class MeditationSubmit extends React.Component {
   }
 
   saveMeditation = () => {
-    this.setState({ uploading: true })
     console.log("To the API!")
+    this.props.mutate({
+      variables: {
+        title: this.state.title,
+        description: this.state.description,
+        img_url: this.state.imageUrl,
+        audio_url: this.state.audioUrl
+      }
+    }).then(response => {
+      console.log(response)
+    }).catch(error => {
+      console.log(error)
+    })
   }
 
   render() {
     const { classes } = this.props;
-    const { title, description, imageUrl, audioUrl, uploading } = this.state;
 
     return (
       <div>
@@ -122,7 +132,7 @@ MeditationSubmit.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-// const MeditationSubmitMutation = graphql(MEDITATION_MUTATION)(MeditationSubmit);
+const MeditationSubmitMutation = graphql(MEDITATION_MUTATION)(MeditationSubmit);
 
-export default withStyles(styles)(MeditationSubmit);
+export default withStyles(styles)(MeditationSubmitMutation);
 
