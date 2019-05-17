@@ -23,7 +23,7 @@ const styles = theme => ({
   },
 });
 
-const MEDITATION_QUERY = gql`
+export const MEDITATION_QUERY = gql`
   {
     meditations {
       id
@@ -57,7 +57,7 @@ function TitlebarGridList(props) {
               <div className={classes.root}>
                 <GridList cellHeight={115} spacing={3}>
                   {meditations.map(tile => (
-                    <GridListTile key={tile.id} cols={2} rows={1}>
+                    <GridListTile key={tile.id} cols={1} rows={1.75}>
                       <img src={tile.img_url} alt={tile.title} />
                       <GridListTileBar
                         title={tile.title}

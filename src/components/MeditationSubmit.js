@@ -6,6 +6,7 @@ import NavBar from './NavBar';
 import Upload from './Upload';
 import gql from 'graphql-tag';
 import { graphql } from 'react-apollo';
+import { MEDITATION_QUERY } from './MeditationGridList';
 
 const styles = theme => ({
   appBar: {
@@ -79,16 +80,27 @@ class MeditationSubmit extends React.Component {
   }
 
   saveMeditation = () => {
-    console.log("To the API!")
+    const variables = {
+      title: this.state.title,
+      description: this.state.description,
+      img_url: this.state.imageUrl,
+      audio_url: this.state.audioUrl
+    }
     this.props.mutate({
-      variables: {
-        title: this.state.title,
-        description: this.state.description,
-        img_url: this.state.imageUrl,
-        audio_url: this.state.audioUrl
+      variables: variables,
+      update: (store, { data: { meditation } }) => {
+        const data = store.readQuery({
+          query: MEDITATION_QUERY,
+        })
+        data.meditations.unshift(meditation)
+        store.writeQuery({
+          query: MEDITATION_QUERY,
+          data,
+        })
       }
     }).then(response => {
       console.log(response)
+      this.props.history.push('/')
     }).catch(error => {
       console.log(error)
     })
