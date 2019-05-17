@@ -45,6 +45,8 @@ class MeditationSubmit extends React.Component {
       description: null,
       imageUrl: null,
       audioUrl: null,
+      uploading: false,
+      error: null,
     };
 
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -71,12 +73,25 @@ class MeditationSubmit extends React.Component {
     event.preventDefault();
   };
 
-  storeMediaDownloadURLs = event => {
-    console.log(event)
+  startMediaUpload = () => {
+    console.log('uploading')
+    this.setState({ uploading: true })
+  }
+
+  finishMediaUpload = event => {
+    console.log('uploaded')
+    this.setState({ uploading: false })
     this.setState({ imageUrl: event.image })
     this.setState({ audioUrl: event.audio })
     // Send it
     this.saveMeditation();
+  }
+
+  mediaUploadError = error => {
+    console.log('media upload error')
+    console.log(error)
+    this.setState({ uploading: false })
+    this.setState({ error: true })
   }
 
   saveMeditation = () => {
@@ -105,12 +120,22 @@ class MeditationSubmit extends React.Component {
       console.log(response)
       this.props.history.push('/')
     }).catch(error => {
+      this.setState({ error: true })
       console.log(error)
     })
   }
 
   render() {
     const { classes } = this.props;
+    const { uploading, error } = this.state;
+
+    if (uploading) return (
+      <div>Uploading...</div>
+    )
+    // Not working...
+    if (error) return (
+      <div>Error bro</div>
+    )
 
     return (
       <div>
@@ -136,7 +161,11 @@ class MeditationSubmit extends React.Component {
               fullWidth={true}
               variant="outlined"
             />
-            <Upload onUploaded={this.storeMediaDownloadURLs} />
+            <Upload
+              onUploadStart={this.startMediaUpload}
+              onUploadFinish={this.finishMediaUpload}
+              onUploadError={this.mediaUploadError}
+            />
           </form>
       </div>
     );

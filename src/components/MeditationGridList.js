@@ -61,13 +61,19 @@ function TitlebarGridList(props) {
 
             return (
               <div className={classes.root}>
-                <GridList cellHeight={115} spacing={3}>
-                  {meditations.map(tile => (
-                    <GridListTile key={tile.id} cols={1} rows={1.75}>
-                      <img src={tile.img_url} alt={tile.title} />
+                <GridList cellHeight={115} spacing={4}>
+                  {meditations.map((meditation, i) => (
+                    <GridListTile
+                      key={meditation.id}
+                      // Make the first meditation 2 columns
+                      cols={i === 0 ? 2 : 1}
+                      rows={1.75}
+                      // classes={{tile: "rounded-tile"}}
+                    >
+                      <img src={meditation.img_url} alt={meditation.title} />
                       <GridListTileBar
-                        title={tile.title}
-                        subtitle={<span>{tile.description}</span>}
+                        title={meditation.title}
+                        subtitle={<span>{meditation.description}</span>}
                         actionIcon={
                           <IconButton className={classes.icon}>
                             <PlayArrowIcon />

@@ -8,14 +8,10 @@ class Upload extends React.Component {
     // we'd have to create these dynamically from a Collection prop or something
     this.imageRef = React.createRef()
     this.audioRef = React.createRef()
-
-    this.state = {
-      uploading: false,
-    }
   }
 
   uploadFiles = () => {
-    this.setState({uploading: true});
+    this.props.onUploadStart()
 
     const fileData = new FormData();
 
@@ -28,9 +24,9 @@ class Upload extends React.Component {
     this.makeUploadRequest(fileData)
       .then(data => {
         const urls = this.parseResponse(data, imageFile, audioFile)
-        this.props.onUploaded(urls)
+        this.props.onUploadFinish(urls)
       })
-      .catch(error => console.error(error.message));
+      .catch(error => this.props.onUploadError(error));
   }
 
   parseResponse = (json, imageFile, audioFile) => {
