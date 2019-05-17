@@ -7,6 +7,7 @@ import Upload from './Upload';
 import gql from 'graphql-tag';
 import { graphql } from 'react-apollo';
 import { MEDITATION_QUERY } from './MeditationGridList';
+import LoadingIndicator from './LoadingIndicator';
 
 const styles = theme => ({
   appBar: {
@@ -46,10 +47,9 @@ class MeditationSubmit extends React.Component {
       imageUrl: null,
       audioUrl: null,
       uploading: false,
-      error: null,
+      error: false,
     };
 
-    this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
   };
 
@@ -67,14 +67,9 @@ class MeditationSubmit extends React.Component {
     });
   };
 
-  handleSubmit(event) {
-    // TODO: Need to setup permissions for this to work. Probably need to setup auth.
-    this.saveMeditation(this.state.title, this.state.description);
-    event.preventDefault();
-  };
-
   startMediaUpload = () => {
     console.log('uploading')
+    this.setState({ error: false })
     this.setState({ uploading: true })
   }
 
@@ -129,13 +124,23 @@ class MeditationSubmit extends React.Component {
     const { classes } = this.props;
     const { uploading, error } = this.state;
 
-    if (uploading) return (
-      <div>Uploading...</div>
-    )
-    // Not working...
-    if (error) return (
-      <div>Error bro</div>
-    )
+    let progress;
+
+    if (uploading) {
+      progress = (
+        <div>
+          <small>It's... beautiful</small>
+          <LoadingIndicator />
+        </div>
+      )
+    }
+    if (error) {
+      progress = (
+        <div>
+          <span>Error, bro</span>
+        </div>
+      )
+    }
 
     return (
       <div>
@@ -167,6 +172,7 @@ class MeditationSubmit extends React.Component {
               onUploadError={this.mediaUploadError}
             />
           </form>
+          { progress }
       </div>
     );
   }
