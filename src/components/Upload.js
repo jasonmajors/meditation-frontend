@@ -52,22 +52,27 @@ class Upload extends React.Component {
   render() {
     return (
       <div>
-        <span>Upload Files</span>
         <div>
-          <p>Audio file</p>
-          <Button>
-            <input ref={this.audioRef} type="file"
-            />
-          </Button>
+          <h2>Upload Files</h2>
+          <div>
+            <p>Audio file</p>
+            <Button>
+              <input ref={this.audioRef} type="file"
+              />
+            </Button>
+          </div>
+          <div>
+            <p>Image</p>
+            <Button>
+              <input ref={this.imageRef} type="file" />
+            </Button>
+          </div>
         </div>
         <div>
-          <p>Image</p>
-          <Button>
-            <input ref={this.imageRef} type="file" />
-          </Button>
-        </div>
-        <div>
-          <Button onClick={this.uploadFiles}>
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={this.uploadFiles}>
             Upload
           </Button>
         </div>

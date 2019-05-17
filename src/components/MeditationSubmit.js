@@ -8,6 +8,7 @@ import gql from 'graphql-tag';
 import { graphql } from 'react-apollo';
 import { MEDITATION_QUERY } from './MeditationGridList';
 import LoadingIndicator from './LoadingIndicator';
+import { loadingPhrases } from '../utils/loading-phrases';
 
 const styles = theme => ({
   appBar: {
@@ -127,9 +128,11 @@ class MeditationSubmit extends React.Component {
     let progress;
 
     if (uploading) {
+      // Get a random loading phrase
+      let phrase = loadingPhrases[Math.floor(Math.random() * loadingPhrases.length)]
       progress = (
         <div>
-          <small>It's... beautiful</small>
+          <small>{ phrase }</small>
           <LoadingIndicator />
         </div>
       )
