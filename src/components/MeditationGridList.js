@@ -24,8 +24,8 @@ const styles = theme => ({
 });
 
 export const MEDITATION_QUERY = gql`
-  {
-    meditations {
+  query MeditationQuery($orderBy: MeditationOrderByInput) {
+    meditations(orderBy: $orderBy) {
       id
       title
       description
@@ -39,13 +39,19 @@ const getMeditations = (data) => {
   return data.meditations;
 }
 
+const getQueryVariables = () => {
+  return {
+    orderBy: `createdAt_DESC`,
+  }
+}
+
 function TitlebarGridList(props) {
   const { classes } = props;
 
   return (
     <div>
       <NavBar title="Knurling" />
-      <Query query={MEDITATION_QUERY}>
+      <Query query={MEDITATION_QUERY} variables={ getQueryVariables() }>
         {
           ({loading, error, data }) => {
             if (loading) return <div>Fetching</div>

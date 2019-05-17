@@ -89,13 +89,16 @@ class MeditationSubmit extends React.Component {
     this.props.mutate({
       variables: variables,
       update: (store, { data: { meditation } }) => {
+        const orderBy = 'createdAt_DESC'
         const data = store.readQuery({
           query: MEDITATION_QUERY,
+          variables: { orderBy },
         })
         data.meditations.unshift(meditation)
         store.writeQuery({
           query: MEDITATION_QUERY,
           data,
+          variables: { orderBy },
         })
       }
     }).then(response => {
