@@ -5,6 +5,7 @@ import MeditationSubmit from './components/MeditationSubmit';
 import { Switch, Route } from 'react-router-dom'
 import MeditationGridList from './components/MeditationGridList';
 import Login from './components/Login';
+import Meditation from './components/Meditation';
 
 class App extends Component {
   render() {
@@ -20,6 +21,7 @@ class App extends Component {
             />
             <Route exact path="/login" component={Login} />
             <Route exact path="/submit" component={MeditationSubmit} />
+            <Route exact path="/meditation/:meditation" component={Meditation} />
           </Switch>
         </div>
       </div>

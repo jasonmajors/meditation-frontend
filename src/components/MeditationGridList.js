@@ -23,8 +23,8 @@ const styles = theme => ({
   },
 });
 
-export const MEDITATION_QUERY = gql`
-  query MeditationQuery($orderBy: MeditationOrderByInput) {
+export const MEDITATIONS_QUERY = gql`
+  query MeditationsQuery($orderBy: MeditationOrderByInput) {
     meditations(orderBy: $orderBy) {
       id
       title
@@ -34,10 +34,6 @@ export const MEDITATION_QUERY = gql`
     }
   }
 `;
-
-const getMeditations = (data) => {
-  return data.meditations;
-}
 
 const getQueryVariables = () => {
   return {
@@ -51,13 +47,13 @@ function TitlebarGridList(props) {
   return (
     <div>
       <NavBar title="Knurling" />
-      <Query query={MEDITATION_QUERY} variables={ getQueryVariables() }>
+      <Query query={MEDITATIONS_QUERY} variables={ getQueryVariables() }>
         {
           ({loading, error, data }) => {
             if (loading) return <div>Fetching</div>
             if (error) return <div>Error</div>
 
-            const meditations = getMeditations(data);
+            const meditations = data.meditations
 
             return (
               <div className={classes.root}>
@@ -68,17 +64,17 @@ function TitlebarGridList(props) {
                       // Make the first meditation 2 columns
                       cols={i === 0 ? 2 : 1}
                       rows={1.75}
-                      // classes={{tile: "rounded-tile"}}
+                      component="a"
+                      href="#"
                     >
-                      <img src={meditation.img_url} alt={meditation.title} />
-                      <GridListTileBar
-                        title={meditation.title}
-                        subtitle={<span>{meditation.description}</span>}
-                        actionIcon={
-                          <IconButton className={classes.icon}>
-                            <PlayArrowIcon />
-                          </IconButton>
-                        }
+                    <img src={meditation.img_url} alt={meditation.title} />
+                    <GridListTileBar
+                      title={meditation.title}
+                      subtitle={<span>{meditation.description}</span>}
+                      actionIcon={
+                        <IconButton className={classes.icon}>
+                          <PlayArrowIcon />
+                        </IconButton>}
                       />
                     </GridListTile>
                   ))}

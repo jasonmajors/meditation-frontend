@@ -6,7 +6,7 @@ import NavBar from './NavBar';
 import Upload from './Upload';
 import gql from 'graphql-tag';
 import { graphql } from 'react-apollo';
-import { MEDITATION_QUERY } from './MeditationGridList';
+import { MEDITATIONS_QUERY } from './MeditationGridList';
 import LoadingIndicator from './LoadingIndicator';
 import { loadingPhrases } from '../utils/loading-phrases';
 
@@ -102,12 +102,12 @@ class MeditationSubmit extends React.Component {
       update: (store, { data: { meditation } }) => {
         const orderBy = 'createdAt_DESC'
         const data = store.readQuery({
-          query: MEDITATION_QUERY,
+          query: MEDITATIONS_QUERY,
           variables: { orderBy },
         })
         data.meditations.unshift(meditation)
         store.writeQuery({
-          query: MEDITATION_QUERY,
+          query: MEDITATIONS_QUERY,
           data,
           variables: { orderBy },
         })
