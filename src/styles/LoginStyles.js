@@ -10,9 +10,13 @@ export const LoginStyles = () => ({
   },
   container: {
     paddingTop: '32%',
+    paddingLeft: '30px',
+    paddingRight: '30px'
   },
   titleWrapper: {
-    display: 'inline-block'
+    display: 'inline-block',
+    textAlign: 'center',
+    width: '100%'
   },
   subtitle: {
     color: 'white',
@@ -27,7 +31,7 @@ export const LoginStyles = () => ({
   title: {
     color: 'white',
     textTransform: 'uppercase',
-    fontSize: '4.5em',
+    fontSize: '4.35em',
     fontWeight: 'bold',
   },
   formWrapper: {
@@ -35,7 +39,7 @@ export const LoginStyles = () => ({
     justifyContent: 'center',
   },
   form: {
-    width: '90%',
+    width: '100%',
   },
   border: {
     borderColor: 'white !important',
