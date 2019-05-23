@@ -11,19 +11,17 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        <div>
-          <Switch>
-            <Route
-              exact
-              path="/"
-              component={MeditationGridList}
-              tileData={this.meditations}
-            />
-            <Route exact path="/login" component={Login} />
-            <Route exact path="/submit" component={MeditationSubmit} />
-            <Route exact path="/meditation/:meditation" component={Meditation} />
-          </Switch>
-        </div>
+        <Switch>
+          <Route
+            exact
+            path="/"
+            component={MeditationGridList}
+            tileData={this.meditations}
+          />
+          <Route exact path="/login" component={Login} />
+          <Route exact path="/submit" component={MeditationSubmit} />
+          <Route exact path="/meditation/:meditation" component={Meditation} />
+        </Switch>
       </div>
     );
   }

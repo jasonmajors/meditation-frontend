@@ -15,10 +15,7 @@ const styles = {
   },
   grow: {
     flexGrow: 1,
-  },
-  menuButton: {
-    marginLeft: -12,
-    marginRight: 20,
+    textAlign: 'center'
   },
 };
 
@@ -27,8 +24,8 @@ const NavBar = (props) => {
  // TODO: The AccountCircle icon button needs a menu. See example in docs.
   return (
     <div className={classes.root}>
-      <AppBar position="static">
-        <Toolbar>
+      <AppBar position="static" color="secondary">
+        <Toolbar disableGutters={true}>
           <SwipeableMenu />
           <Typography variant="h6" color="inherit" className={classes.grow}>
             { title }

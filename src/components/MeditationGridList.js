@@ -16,7 +16,7 @@ const styles = theme => ({
     flexWrap: 'wrap',
     justifyContent: 'space-around',
     overflow: 'hidden',
-    backgroundColor: theme.palette.background.paper,
+    // backgroundColor: theme.palette.grey[900],
   },
   icon: {
     color: 'rgba(255, 255, 255, 0.54)',
@@ -57,7 +57,7 @@ function TitlebarGridList(props) {
 
             return (
               <div className={classes.root}>
-                <GridList cellHeight={115} spacing={4}>
+                <GridList cellHeight={115} spacing={5}>
                   {meditations.map((meditation, i) => (
                     <GridListTile
                       key={meditation.id}
@@ -65,7 +65,7 @@ function TitlebarGridList(props) {
                       cols={i === 0 ? 2 : 1}
                       rows={1.75}
                       component="a"
-                      href="#"
+                      href={`/meditation/${meditation.id}`}
                     >
                     <img src={meditation.img_url} alt={meditation.title} />
                     <GridListTileBar
