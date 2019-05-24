@@ -38,7 +38,7 @@ class SwipeableMenu extends React.Component {
   };
 
   render() {
-    const { classes } = this.props;
+    const { classes, anchorColor } = this.props;
 
     const sideList = (
       <div className={classes.list}>
@@ -60,7 +60,7 @@ class SwipeableMenu extends React.Component {
             {text: 'Settings', icon: <SettingsIcon />, link: '/'},
             {text: 'Logout', icon: <PowerSettingsNewIcon />, link: '/'},
           ].map((item, index) => (
-            <Link to={item.link} style={{ textDecoration: 'none' }} key={item.text}>
+            <Link to={item.link} style={{ textDecoration: 'none', color: 'inherit' }} key={item.text}>
               <ListItem button>
                 <ListItemIcon>{ item.icon }</ListItemIcon>
                 <ListItemText primary={item.text} />
@@ -75,8 +75,7 @@ class SwipeableMenu extends React.Component {
       <div>
         <IconButton
           onClick={this.toggleDrawer('left', true)}
-          className={classes.menuButton}
-          color="inherit"
+          style={ anchorColor ? {color: anchorColor} : {color: 'inherit'} }
           aria-label="Menu">
           <MenuIcon />
         </IconButton>
