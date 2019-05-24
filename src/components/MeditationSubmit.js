@@ -17,12 +17,13 @@ const styles = theme => ({
   container: {
     display: 'flex',
     flexWrap: 'wrap',
-    margin: theme.spacing.unit * 2,
+    margin: theme.spacing(2),
+    textAlign: 'center',
   },
   button: {
-    marginLeft: theme.spacing.unit,
-    marginRight: theme.spacing.unit,
-    marginTop: theme.spacing.unit,
+    marginLeft: theme.spacing(1),
+    marginRight: theme.spacing(1),
+    marginTop: theme.spacing(1),
   },
   flex: {
     flex: 1,
@@ -113,7 +114,6 @@ class MeditationSubmit extends React.Component {
         })
       }
     }).then(response => {
-      console.log(response)
       this.props.history.push('/')
     }).catch(error => {
       this.setState({ error: true })
@@ -131,7 +131,7 @@ class MeditationSubmit extends React.Component {
       // Get a random loading phrase
       let phrase = loadingPhrases[Math.floor(Math.random() * loadingPhrases.length)]
       progress = (
-        <div>
+        <div style={{ textAlign: 'center' }}>
           <small>{ phrase }</small>
           <LoadingIndicator />
         </div>
@@ -139,7 +139,7 @@ class MeditationSubmit extends React.Component {
     }
     if (error) {
       progress = (
-        <div>
+        <div style={{ textAlign: 'center' }}>
           <span>Error, bro</span>
         </div>
       )
