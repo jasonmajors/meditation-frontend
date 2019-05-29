@@ -137,9 +137,18 @@ class Meditation extends React.Component {
     this.progress.value = this.player.currentTime / this.player.duration
   }
 
+  seek = (event) => {
+    const percent = event.nativeEvent.offsetX / this.progress.clientWidth
+
+    this.player.currentTime = percent * this.player.duration
+    this.progress.value = percent / 100
+  }
+
   render() {
     const meditationId = this.props.match.params.meditation
     const { classes } = this.props
+    // TODO: When we abstract the player component out, we'll want currentTimeSeconds and durationSeconds
+    // or currentTimeTs and durationTs
     const { player, currentTime, duration } = this.state
 
     return (
@@ -175,6 +184,7 @@ class Meditation extends React.Component {
                         <progress
                           ref={ref => this.progress = ref }
                           className={classes.seekbar}
+                          onClick={e => { this.seek(e) }}
                           value="0"
                           max="1">
                         </progress>
