@@ -5,14 +5,16 @@ import { withStyles } from '@material-ui/core/styles';
 import SwipeableMenu from './SwipeableMenu';
 import SkipPreviousIcon from '@material-ui/icons/SkipPrevious';
 import PlayArrowIcon from '@material-ui/icons/PlayArrow';
+import PauseIcon from '@material-ui/icons/Pause';
 import SkipNextIcon from '@material-ui/icons/SkipNext';
+import RepeatIcon from '@material-ui/icons/Repeat';
+import ShuffleIcon from '@material-ui/icons/Shuffle';
+import moment from 'moment'
+import indigo from '@material-ui/core/colors/indigo'
 
 import {
-  Card,
-  CardContent,
   Typography,
   IconButton,
-  Container,
 } from '@material-ui/core';
 
 const styles = theme =>  ({
@@ -44,7 +46,7 @@ const styles = theme =>  ({
     '&::after': {
       content: '" "',
       position: 'absolute',
-      backgroundColor: 'rgba(0,0,0,0.6)',
+      backgroundColor: 'rgba(0,0,0,0.4)',
       top: 0,
       right: 0,
       left: 0,
@@ -52,22 +54,44 @@ const styles = theme =>  ({
       zIndex: -1,
     }
   },
+  seekbar: {
+    width: '100%',
+    height: '0.2em',
+    '-webkit-appearance': 'none',
+    '&::-webkit-progress-bar': {
+      backgroundColor: 'white',
+    },
+    '&::-webkit-progress-value': {
+      backgroundColor: indigo[500]
+    }
+  },
   controls: {
     alignItems: 'center',
-    paddingLeft: theme.spacing(1),
-    paddingBottom: theme.spacing(1),
+    paddingBottom: theme.spacing(3),
   },
   playIcon: {
     height: 90,
     width: 90,
     color: 'white',
   },
-  skipIcons: {
+  skipIcon: {
     height: 45,
     width: 45,
     color: 'white',
-    opacity: '0.8',
+    opacity: '0.9',
   },
+  secondaryIcon: {
+    height: 20,
+    width: 20,
+    color: 'white',
+    opacity: '0.9',
+  },
+  audioMetaContainer: {
+    paddingTop: '0.5em',
+    display: 'flex',
+    justifyContent: 'space-between',
+    color: 'white',
+  }
 });
 
 const MEDITATION_QUERY = gql`
@@ -83,9 +107,40 @@ const MEDITATION_QUERY = gql`
 `;
 
 class Meditation extends React.Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      player: 'paused',
+      currentTime: this.formatTimestamp(0),
+      duration: null,
+    };
+  }
+
+  // TODO: The audio player should be its own component
+  toggleAudio = () => {
+    if (this.state.player === 'playing') {
+      this.player.pause()
+      this.setState({ player: 'paused' })
+    } else if (this.state.player === 'paused') {
+      this.player.play()
+      this.setState({ player: 'playing' })
+    }
+    console.log(this.state)
+  }
+
+  formatTimestamp = (secs) => {
+    return moment.utc(secs*1000).format('mm:ss');
+  }
+
+  updateProgress = () => {
+    this.setState({ currentTime: this.formatTimestamp(this.player.currentTime) })
+    this.progress.value = this.player.currentTime / this.player.duration
+  }
+
   render() {
     const meditationId = this.props.match.params.meditation
     const { classes } = this.props
+    const { player, currentTime, duration } = this.state
 
     return (
       <div className={classes.fullScreen}>
@@ -98,7 +153,7 @@ class Meditation extends React.Component {
                 const meditation = data.meditation;
 
                 return (
-                  <div className={classes.background} style={{ backgroundImage: `url(${meditation.img_url})`}}>
+                  <div className={classes.background} style={{ backgroundImage: `url(${meditation.img_url})` }}>
                     <SwipeableMenu anchorColor="white" />
                       <div className={classes.mediaPlayer}>
                         <div>
@@ -109,15 +164,47 @@ class Meditation extends React.Component {
                             {meditation.description}
                           </Typography>
                         </div>
+                        {/* TODO: Can abstract the audio part into its own component */}
+                        <audio
+                          ref={ref => this.player = ref }
+                          src={meditation.audio_url}
+                          onTimeUpdate={this.updateProgress}
+                          onLoadedMetadata={() => this.setState({ duration: this.formatTimestamp(this.player.duration) })}
+                        >
+                        </audio>
+                        <progress
+                          ref={ref => this.progress = ref }
+                          className={classes.seekbar}
+                          value="0"
+                          max="1">
+                        </progress>
+                        <div className={classes.audioMetaContainer}>
+                          <div>
+                            { currentTime }
+                          </div>
+                          <div>
+                            { duration }
+                          </div>
+                        </div>
                         <div className={classes.controls}>
-                          <IconButton aria-label="Previous">
-                            <SkipPreviousIcon className={classes.skipIcons} />
+                          <IconButton aria-label="Repeat">
+                            <ShuffleIcon className={classes.secondaryIcon} />
                           </IconButton>
-                          <IconButton aria-label="Play/pause">
-                            <PlayArrowIcon className={classes.playIcon} />
+                          <IconButton aria-label="Previous">
+                            <SkipPreviousIcon className={classes.skipIcon} />
+                          </IconButton>
+                          <IconButton aria-label="Play/pause" onClick={ this.toggleAudio }>
+                            {
+                              player === 'paused' ?
+                                <PlayArrowIcon className={classes.playIcon} /> :
+                                <PauseIcon className={classes.playIcon} />
+                            }
                           </IconButton>
                           <IconButton aria-label="Next">
-                            <SkipNextIcon className={classes.skipIcons} />
+                            <SkipNextIcon className={classes.skipIcon} />
+                          </IconButton>
+                          <IconButton aria-label="Repeat">
+                            <RepeatIcon className={classes.secondaryIcon} />
                           </IconButton>
                         </div>
                       </div>

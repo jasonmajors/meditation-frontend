@@ -30,7 +30,6 @@ export const MEDITATIONS_QUERY = gql`
       title
       description
       img_url
-      audio_url
     }
   }
 `;
