@@ -54,10 +54,12 @@ const styles = theme =>  ({
     color: 'white',
     opacity: '0.9',
   },
+  secondaryButton: {
+    color: 'white'
+  },
   secondaryIcon: {
     height: 20,
     width: 20,
-    color: 'white',
     opacity: '0.9',
   },
   audioMetaContainer: {
@@ -143,7 +145,10 @@ class AudioPlayer extends React.Component {
           </div>
         </div>
         <div className={ classes.controls }>
-          <IconButton aria-label="Repeat">
+          <IconButton
+            aria-label="Repeat"
+            className={ classes.secondaryButton }
+          >
             <ShuffleIcon className={ classes.secondaryIcon } />
           </IconButton>
           <IconButton aria-label="Previous">
@@ -162,8 +167,9 @@ class AudioPlayer extends React.Component {
           <IconButton
             aria-label="Repeat"
             onClick={ () => this.setState({ playerLooping: !this.state.playerLooping })}
+            className={ classes.secondaryButton }
           >
-            <RepeatIcon className={ classes.secondaryIcon } />
+            <RepeatIcon className={ classes.secondaryIcon } color={ playerLooping ? "secondary" : "inherit" } />
           </IconButton>
         </div>
       </div>
