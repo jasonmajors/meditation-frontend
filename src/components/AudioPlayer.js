@@ -51,7 +51,7 @@ const styles = theme =>  ({
   skipIcon: {
     height: 45,
     width: 45,
-    color: 'white',
+    color: '#a8a8a8',
     opacity: '0.9',
   },
   secondaryButton: {
