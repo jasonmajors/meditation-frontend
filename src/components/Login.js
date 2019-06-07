@@ -34,7 +34,7 @@ class Login extends React.Component {
   confirm = async (data) => {
     const { token } = this.state.login ? data.login : data.signup;
     this.saveUserData(token);
-    this.props.history.push(`/`);
+    this.props.history.push(`/meditations`);
   }
 
   saveUserData = (token) => {
@@ -46,6 +46,14 @@ class Login extends React.Component {
     if (message.includes('unique constraint')) {
       return "We're sorry, that email is taken.";
     }
+  }
+
+  login() {
+    this.props.auth.login();
+  }
+
+  logout() {
+    this.props.auth.logout();
   }
 
   render() {
@@ -177,6 +185,8 @@ class Login extends React.Component {
                     </span>
                   </p>
                 )}
+                <p onClick={() => this.login()}>Auth LOGIN OOOHHH</p>
+                <p onClick={() => this.logout()}>Auth LOGOUT OOOHHH</p>
               </div>
             </form>
           </div>

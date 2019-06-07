@@ -3,7 +3,7 @@ import splash from '../images/splash-darkest.jpg';
 export const LoginStyles = () => ({
   fullscreen: {
     backgroundImage: `url(${splash})`,
-    height: `100vh`,
+    minHeight: `100vh`,
     backgroundPosition: 'center',
     backgroundRepeat: 'no-repeat',
     backgroundSize: 'cover'
@@ -11,7 +11,10 @@ export const LoginStyles = () => ({
   container: {
     paddingTop: '32%',
     paddingLeft: '30px',
-    paddingRight: '30px'
+    paddingRight: '30px',
+    "@media screen and (orientation:landscape)": {
+      paddingTop: '0px',
+    },
   },
   titleWrapper: {
     display: 'inline-block',

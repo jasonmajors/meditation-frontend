@@ -64,7 +64,7 @@ function TitlebarGridList(props) {
                       cols={i === 0 ? 2 : 1}
                       rows={1.75}
                       component="a"
-                      href={`/meditation/${meditation.id}`}
+                      href={`/meditations/${meditation.id}`}
                     >
                     <img src={meditation.img_url} alt={meditation.title} />
                     <GridListTileBar

@@ -114,7 +114,7 @@ class MeditationSubmit extends React.Component {
         })
       }
     }).then(response => {
-      this.props.history.push('/')
+      this.props.history.push('/meditations')
     }).catch(error => {
       this.setState({ error: true })
       console.log(error)

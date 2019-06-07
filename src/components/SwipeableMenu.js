@@ -56,6 +56,7 @@ class SwipeableMenu extends React.Component {
         <Divider />
         <List>
           {[
+            {text: 'All Meditations', icon: <PlayListAddIcon />, link: '/meditations'},
             {text: 'New Meditation', icon: <PlayListAddIcon />, link: '/submit'},
             {text: 'Settings', icon: <SettingsIcon />, link: '/'},
             {text: 'Logout', icon: <PowerSettingsNewIcon />, link: '/'},
