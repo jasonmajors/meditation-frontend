@@ -9,7 +9,7 @@ export default class Auth {
   auth0 = new auth0.WebAuth({
     domain: 'knurling.auth0.com',
     clientID: 'steq6wxAOZ2cZl1ii1M3sW5wUqYNsjj5',
-    redirectUri: 'http://localhost:3000/callback',
+    redirectUri: 'http://knurling.local:3000/callback',
     responseType: 'token id_token',
     scope: 'openid'
   });
@@ -24,14 +24,22 @@ export default class Auth {
     this.renewSession = this.renewSession.bind(this);
   }
 
-  login() {
-    this.auth0.authorize();
+  login(email, password) {
+    console.log(email)
+    console.log(password)
+    // this.auth0.authorize();
+    this.auth0.login({
+      realm: process.env.REACT_APP_AUTH0_REALM,
+      email: email,
+      password: password,
+    })
   }
 
   handleAuthentication() {
     this.auth0.parseHash((err , authResult) => {
       if (authResult && authResult.accessToken && authResult.idToken) {
         this.setSession(authResult);
+        console.log('setting session')
       } else if (err) {
         history.replace('/');
         console.log(err);
@@ -79,8 +87,8 @@ export default class Auth {
     this.auth0.logout({
       returnTo: window.location.origin
     })
-
-    history.replace('/meditations')
+    // TODO: Would like to figure out how to get this to bring the user back to the universal login
+    history.replace('/')
   }
 
   isAuthenticated() {

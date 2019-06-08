@@ -29,7 +29,7 @@ class App extends Component {
             component={MeditationGridList}
             tileData={this.meditations}
           />
-          <Route exact path="/login"  render={ () => auth.login() } />
+          <Route exact path="/logout" render={ () => auth.logout() } />
           <Route exact path="/submit" component={MeditationSubmit} />
           <Route exact path="/meditations/:meditation" component={Meditation} />
           <Route exact path="/callback" render={ (props) => {

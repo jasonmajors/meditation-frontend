@@ -59,7 +59,7 @@ class SwipeableMenu extends React.Component {
             {text: 'All Meditations', icon: <PlayListAddIcon />, link: '/meditations'},
             {text: 'New Meditation', icon: <PlayListAddIcon />, link: '/submit'},
             {text: 'Settings', icon: <SettingsIcon />, link: '/'},
-            {text: 'Logout', icon: <PowerSettingsNewIcon />, link: '/'},
+            {text: 'Logout', icon: <PowerSettingsNewIcon />, link: '/logout'},
           ].map((item, index) => (
             <Link to={item.link} style={{ textDecoration: 'none', color: 'inherit' }} key={item.text}>
               <ListItem button>

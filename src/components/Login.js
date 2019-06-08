@@ -49,7 +49,7 @@ class Login extends React.Component {
   }
 
   login() {
-    this.props.auth.login();
+    this.props.auth.login(this.state.email, this.state.password)
   }
 
   logout() {
