@@ -36,11 +36,14 @@ export default class Auth {
     }
   }
 
-  signup(email, password) {
+  signup(name, email, password) {
     this.auth0.signup({
       email: email,
       password: password,
       connection: process.env.REACT_APP_AUTH0_REALM,
+      user_metadata: {
+        name: name
+      }
     }, (err, _) => {
       if (err === null) {
         this.login(email, password)

@@ -28,7 +28,7 @@ class Login extends React.Component {
 
   signup() {
     console.log(this.state.name)
-    this.props.auth.signup(this.state.email, this.state.password)
+    this.props.auth.signup(this.state.name, this.state.email, this.state.password)
   }
 
   logout() {
