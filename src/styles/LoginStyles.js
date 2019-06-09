@@ -79,6 +79,7 @@ export const LoginStyles = () => ({
     color: 'white'
   },
   errorText: {
+    textAlign: 'center',
     fontWeight: 'bold',
     color: 'red'
   }

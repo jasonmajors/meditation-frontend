@@ -4,52 +4,31 @@ import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import { constants } from '../constants';
 import { LoginStyles } from '../styles/LoginStyles';
-import gql from 'graphql-tag';
-import { Mutation } from 'react-apollo';
-
-const SIGNUP_MUTATION = gql`
-  mutation SignupMutation($email: String!, $password: String!, $name: String!) {
-    signup(email: $email, password: $password, name: $name) {
-      token
-    }
-  }
-`
-
-const LOGIN_MUTATION = gql`
-  mutation LoginMutation($email: String!, $password: String!) {
-    login(email: $email, password: $password) {
-      token
-    }
-  }
-`
 
 class Login extends React.Component {
   state = {
     login: false,
     name: null,
     email: null,
-    password: null
+    password: null,
+    loginErr: null,
   }
 
-  confirm = async (data) => {
-    const { token } = this.state.login ? data.login : data.signup;
-    this.saveUserData(token);
-    this.props.history.push(`/meditations`);
-  }
-
-  saveUserData = (token) => {
-    console.log(token);
-    localStorage.setItem(constants.AUTH_TOKEN, token);
-  }
-
-  getErrorMessage = (message) => {
-    if (message.includes('unique constraint')) {
-      return "We're sorry, that email is taken.";
+  async login() {
+    if (this.state.email && this.state.password) {
+      try {
+        await this.props.auth.login(this.state.email, this.state.password)
+      } catch (e) {
+        this.setState({ loginErr : e.description })
+      }
+    } else {
+      // TODO: validation err
     }
   }
 
-  login() {
-    this.props.auth.login(this.state.email, this.state.password)
+  signup() {
+    console.log(this.state.name)
+    this.props.auth.signup(this.state.email, this.state.password)
   }
 
   logout() {
@@ -58,20 +37,23 @@ class Login extends React.Component {
 
   render() {
     const { classes } = this.props;
-    const { name, email, password, login } = this.state;
+    const { login, loginErr } = this.state;
     const { TAGLINE, TITLE } = constants;
 
     return (
-      <div className={classes.fullscreen}>
-        <div className={classes.container}>
-          <div className={classes.titleWrapper}>
-            <div className={classes.subtitle}>
-              <p className={classes.subtitleText}>{TAGLINE}</p>
+      <div className={ classes.fullscreen }>
+        <div className={ classes.container }>
+          <div className={ classes.titleWrapper }>
+            <div className={ classes.subtitle }>
+              <p className={ classes.subtitleText }>{ TAGLINE }</p>
             </div>
-            <div className={classes.title}>{TITLE}</div>
+            <div className={ classes.title }>{TITLE}</div>
           </div>
-          <div className={classes.formWrapper}>
-            <form className={classes.form}>
+          <div className={ classes.formWrapper }>
+            <form className={ classes.form }>
+            {loginErr && (
+              <div className={ classes.errorText }>{ loginErr }</div>
+            )}
             {!login && (
               <TextField
                 type="text"
@@ -140,32 +122,17 @@ class Login extends React.Component {
                 fullWidth={true}
                 onChange={e => this.setState({password: e.target.value})}
               />
-              <Mutation
-                mutation={login ? LOGIN_MUTATION : SIGNUP_MUTATION}
-                variables={{name, email, password}}
-                onCompleted={data => this.confirm(data)}
-                errorPolicy="all"
+              <Button
+                variant="contained"
+                color="primary"
+                size="large"
+                className={classes.button}
+                fullWidth={true}
+                onClick={() => this.state.login ? this.login() : this.signup() }
               >
-                {(signUp, {loading, error}) => (
-                  <div>
-                    <Button
-                      variant="contained"
-                      color="primary"
-                      size="large"
-                      className={classes.button}
-                      fullWidth={true}
-                      onClick={signUp}
-                    >
-                      {login && <span>Login</span>}
-                      {!login && <span>Sign Up</span>}
-                    </Button>
-                    {loading && <p className={classes.loadingText}>Loading...</p>}
-                    {error && error.graphQLErrors.map(({message}, i) => (
-                      <p className={classes.errorText} key={i}>{this.getErrorMessage(message)}</p>
-                    ))}
-                  </div>
-                )}
-              </Mutation>
+                {login && <span>Login</span>}
+                {!login && <span>Sign Up</span>}
+              </Button>
               <div className={classes.subtitle}>
                 {!login && (
                   <p>Already have an account?
@@ -185,12 +152,11 @@ class Login extends React.Component {
                     </span>
                   </p>
                 )}
-                <p onClick={() => this.login()}>Auth LOGIN OOOHHH</p>
-                <p onClick={() => this.logout()}>Auth LOGOUT OOOHHH</p>
               </div>
             </form>
           </div>
         </div>
+        <p onClick={() => this.logout()}>Auth LOGOUT OOOHHH</p>
       </div>
     )
   }

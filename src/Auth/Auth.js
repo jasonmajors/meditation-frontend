@@ -25,13 +25,29 @@ export default class Auth {
   }
 
   login(email, password) {
-    console.log(email)
-    console.log(password)
-    // this.auth0.authorize();
-    this.auth0.login({
-      realm: process.env.REACT_APP_AUTH0_REALM,
+    if (email && password) {
+      return new Promise((_, reject) => this.auth0.login({
+        realm: process.env.REACT_APP_AUTH0_REALM,
+        email: email,
+        password: password,
+      }, err => {
+        reject(err)
+      }))
+    }
+  }
+
+  signup(email, password) {
+    this.auth0.signup({
       email: email,
       password: password,
+      connection: process.env.REACT_APP_AUTH0_REALM,
+    }, (err, _) => {
+      if (err === null) {
+        this.login(email, password)
+      } else {
+        // uh oh
+        console.log(err)
+      }
     })
   }
 
