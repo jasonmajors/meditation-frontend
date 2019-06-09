@@ -26,9 +26,14 @@ class Login extends React.Component {
     }
   }
 
-  signup() {
-    console.log(this.state.name)
-    this.props.auth.signup(this.state.name, this.state.email, this.state.password)
+  async signup() {
+    if (this.state.name && this.state.email && this.state.password) {
+      try {
+        await this.props.auth.signup(this.state.name, this.state.email, this.state.password)
+      } catch (e) {
+        this.setState({ loginErr : e.description })
+      }
+    }
   }
 
   logout() {

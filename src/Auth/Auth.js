@@ -23,7 +23,8 @@ export default class Auth {
     this.getIdToken = this.getIdToken.bind(this);
     this.renewSession = this.renewSession.bind(this);
   }
-
+  // TODO: This works but feels kind of sloppy? Does it need to be a promise in order to get the response from
+  // the callback?
   login(email, password) {
     if (email && password) {
       return new Promise((_, reject) => this.auth0.login({
@@ -35,9 +36,10 @@ export default class Auth {
       }))
     }
   }
-
+  // TODO: This works but feels kind of sloppy? Does it need to be a promise in order to get the response from
+  // the callback?
   signup(name, email, password) {
-    this.auth0.signup({
+    return new Promise((_, reject) => this.auth0.signup({
       email: email,
       password: password,
       connection: process.env.REACT_APP_AUTH0_REALM,
@@ -48,10 +50,9 @@ export default class Auth {
       if (err === null) {
         this.login(email, password)
       } else {
-        // uh oh
-        console.log(err)
+        reject(err)
       }
-    })
+    }))
   }
 
   handleAuthentication() {
