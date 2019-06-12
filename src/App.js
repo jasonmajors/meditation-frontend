@@ -5,20 +5,19 @@ import { Router , Route } from 'react-router-dom'
 import MeditationGridList from './components/MeditationGridList';
 import Login from './components/Login';
 import Meditation from './components/Meditation';
-import Auth from './Auth/Auth'
 import LoadingPage from './components/LoadingPage';
 import history from './history'
 
-const auth = new Auth()
-
-const handleAuthentication = (nextState, replace) => {
-  if (/access_token|id_token|error/.test(nextState.location.hash)) {
-    auth.handleAuthentication()
-  }
-}
-
 class App extends Component {
+  handleAuthentication = (nextState, replace) => {
+    if (/access_token|id_token|error/.test(nextState.location.hash)) {
+      this.props.auth.handleAuthentication()
+    }
+  }
+
   render() {
+    const { auth } = this.props
+
     return (
       <div className="App">
         <Router history={history}>
@@ -33,7 +32,7 @@ class App extends Component {
           <Route exact path="/submit" component={MeditationSubmit} />
           <Route exact path="/meditations/:meditation" component={Meditation} />
           <Route exact path="/callback" render={ (props) => {
-            handleAuthentication(props)
+            this.handleAuthentication(props)
             return <LoadingPage {...props} />
           }}/>
         </Router>

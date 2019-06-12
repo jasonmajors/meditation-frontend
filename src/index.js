@@ -9,15 +9,18 @@ import { ApolloClient } from 'apollo-client'
 import { createHttpLink } from 'apollo-link-http'
 import { InMemoryCache } from 'apollo-cache-inmemory'
 import { setContext } from 'apollo-link-context'
-import { constants } from './constants';
+import Auth from './Auth/Auth'
 
 // TODO: API URL needs to be an .env variable sooner rather than later
 const httpLink = createHttpLink({
   uri: 'http://localhost:4000'
 });
 
+const auth = new Auth()
+
 const authLink = setContext((_, { headers }) => {
-  const token = localStorage.getItem(constants.AUTH_TOKEN);
+  const token = auth.getAccessToken()
+  console.log(token)
   return {
     headers: {
       ...headers,
@@ -34,7 +37,7 @@ const client = new ApolloClient({
 ReactDOM.render(
   <BrowserRouter>
     <ApolloProvider client={client}>
-      <App />
+      <App auth={auth} />
     </ApolloProvider>
   </BrowserRouter>,
   document.getElementById('root')

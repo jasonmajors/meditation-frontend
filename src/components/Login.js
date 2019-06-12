@@ -19,10 +19,10 @@ class Login extends React.Component {
       try {
         await this.props.auth.login(this.state.email, this.state.password)
       } catch (e) {
-        this.setState({ loginErr : e.description })
+        this.setState({ loginErr: e.description })
       }
     } else {
-      // TODO: validation err
+      this.setState({ loginErr: 'Missing some fields.' })
     }
   }
 
@@ -31,8 +31,10 @@ class Login extends React.Component {
       try {
         await this.props.auth.signup(this.state.name, this.state.email, this.state.password)
       } catch (e) {
-        this.setState({ loginErr : e.description })
+        this.setState({ loginErr: e.description })
       }
+    } else {
+      this.setState({ loginErr: 'Missing some fields.' })
     }
   }
 

@@ -26,15 +26,14 @@ export default class Auth {
   // TODO: This works but feels kind of sloppy? Does it need to be a promise in order to get the response from
   // the callback?
   login(email, password) {
-    if (email && password) {
-      return new Promise((_, reject) => this.auth0.login({
-        realm: process.env.REACT_APP_AUTH0_REALM,
-        email: email,
-        password: password,
-      }, err => {
-        reject(err)
-      }))
-    }
+    return new Promise((_, reject) => this.auth0.login({
+      realm: process.env.REACT_APP_AUTH0_REALM,
+      email: email,
+      password: password,
+      audience: process.env.REACT_APP_AUTH0_AUDIENCE,
+    }, err => {
+      reject(err)
+    }))
   }
   // TODO: This works but feels kind of sloppy? Does it need to be a promise in order to get the response from
   // the callback?
@@ -80,6 +79,7 @@ export default class Auth {
     // Set the time that the Access Token will expire at
     let expiresAt = (authResult.expiresIn * 1000) + new Date().getTime()
     this.accessToken = authResult.accessToken
+    console.log(authResult)
     this.idToken = authResult.idToken
     this.expiresAt = expiresAt;
     // navigate to home... will need to change this
