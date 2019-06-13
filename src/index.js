@@ -20,7 +20,7 @@ const auth = new Auth()
 
 const authLink = setContext((_, { headers }) => {
   const token = auth.getAccessToken()
-  console.log(token)
+
   return {
     headers: {
       ...headers,
@@ -28,11 +28,17 @@ const authLink = setContext((_, { headers }) => {
     }
   }
 });
-
+// TODO: Probably need to tell this to send credentials with requests
+// if we want to send a cookie along
 const client = new ApolloClient({
   link: authLink.concat(httpLink),
-  cache: new InMemoryCache()
-});
+  cache: new InMemoryCache(),
+  // TODO: Do i need both of these?
+  fetchOptions:{
+    credentials:'include'
+  },
+  credentials:'include'
+  });
 
 ReactDOM.render(
   <BrowserRouter>

@@ -57,6 +57,26 @@ export default class Auth {
   handleAuthentication() {
     this.auth0.parseHash((err , authResult) => {
       if (authResult && authResult.accessToken && authResult.idToken) {
+        // TODO: Move to env
+        const url = 'http://localhost:4000/authenticate'
+        // TODO: Fetch cookie method - needs to force promise to end
+        fetch(url, {
+          method: 'POST',
+          mode: 'cors',
+          // credentials should enable us to receive a cookie on the response, I think
+          credentials: 'include',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${authResult.accessToken}`
+          },
+        }).then(response => {
+          if (response.ok) {
+            console.log('cookie set?')
+          }
+        }).catch(error => {
+          console.log(error)
+        })
+
         this.setSession(authResult);
         console.log('setting session')
       } else if (err) {
@@ -73,7 +93,9 @@ export default class Auth {
   getIdToken() {
     return this.idToken;
   }
-
+  // TODO: Dont need this but should consider storing this data somewhere?
+  // Perhaps use the idToken to fetch profile information (nonsensitive) and store that
+  // in local session
   setSession(authResult) {
     localStorage.setItem('isLoggedIn', 'true')
     // Set the time that the Access Token will expire at
@@ -107,7 +129,6 @@ export default class Auth {
     this.auth0.logout({
       returnTo: window.location.origin
     })
-    // TODO: Would like to figure out how to get this to bring the user back to the universal login
     history.replace('/')
   }
 
