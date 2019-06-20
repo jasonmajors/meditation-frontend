@@ -8,37 +8,20 @@ import { ApolloProvider } from 'react-apollo'
 import { ApolloClient } from 'apollo-client'
 import { createHttpLink } from 'apollo-link-http'
 import { InMemoryCache } from 'apollo-cache-inmemory'
-import { setContext } from 'apollo-link-context'
 import Auth from './Auth/Auth'
 
 // TODO: API URL needs to be an .env variable sooner rather than later
 const httpLink = createHttpLink({
-  uri: 'http://localhost:4000'
+  uri: process.env.REACT_APP_API_URL,
+  credentials: 'include'
 });
 
 const auth = new Auth()
 
-const authLink = setContext((_, { headers }) => {
-  const token = auth.getAccessToken()
-
-  return {
-    headers: {
-      ...headers,
-      authorization: token ? `Bearer ${token}` : ''
-    }
-  }
-});
-// TODO: Probably need to tell this to send credentials with requests
-// if we want to send a cookie along
 const client = new ApolloClient({
-  link: authLink.concat(httpLink),
+  link: httpLink,
   cache: new InMemoryCache(),
-  // TODO: Do i need both of these?
-  fetchOptions:{
-    credentials:'include'
-  },
-  credentials:'include'
-  });
+});
 
 ReactDOM.render(
   <BrowserRouter>

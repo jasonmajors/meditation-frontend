@@ -163,7 +163,6 @@ class Login extends React.Component {
             </form>
           </div>
         </div>
-        <p onClick={() => this.logout()}>Auth LOGOUT OOOHHH</p>
       </div>
     )
   }

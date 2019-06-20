@@ -21,7 +21,6 @@ export default class Auth {
     this.isAuthenticated = this.isAuthenticated.bind(this);
     this.getAccessToken = this.getAccessToken.bind(this);
     this.getIdToken = this.getIdToken.bind(this);
-    this.renewSession = this.renewSession.bind(this);
   }
   // TODO: This works but feels kind of sloppy? Does it need to be a promise in order to get the response from
   // the callback?
@@ -59,11 +58,10 @@ export default class Auth {
       if (authResult && authResult.accessToken && authResult.idToken) {
         // TODO: Move to env
         const url = 'http://localhost:4000/authenticate'
-        // TODO: Fetch cookie method - needs to force promise to end
+        // TODO: Fetch cookie method - needs to force promise to end perhaps before the redirect to /meditations
         fetch(url, {
           method: 'POST',
           mode: 'cors',
-          // credentials should enable us to receive a cookie on the response, I think
           credentials: 'include',
           headers: {
             'Content-Type': 'application/json',
@@ -77,8 +75,8 @@ export default class Auth {
           console.log(error)
         })
 
-        this.setSession(authResult);
         console.log('setting session')
+        history.replace('/meditations')
       } else if (err) {
         history.replace('/');
         console.log(err);
@@ -93,31 +91,6 @@ export default class Auth {
   getIdToken() {
     return this.idToken;
   }
-  // TODO: Dont need this but should consider storing this data somewhere?
-  // Perhaps use the idToken to fetch profile information (nonsensitive) and store that
-  // in local session
-  setSession(authResult) {
-    localStorage.setItem('isLoggedIn', 'true')
-    // Set the time that the Access Token will expire at
-    let expiresAt = (authResult.expiresIn * 1000) + new Date().getTime()
-    this.accessToken = authResult.accessToken
-    console.log(authResult)
-    this.idToken = authResult.idToken
-    this.expiresAt = expiresAt;
-    // navigate to home... will need to change this
-    history.replace('/meditations')
-  }
-
-  renewSession() {
-    this.auth0.checkSession({}, (err, authResult) => {
-      if (authResult && authResult.accessToken && authResult.idToken) {
-        this.setSession(authResult)
-      } else if (err) {
-        this.logout()
-        console.log(err)
-      }
-    })
-  }
 
   logout() {
     this.accessToken = null
@@ -125,7 +98,7 @@ export default class Auth {
     this.expiresAt = 0
 
     localStorage.removeItem('isLoggedIn')
-
+    // TODO: Remove our auth cookie
     this.auth0.logout({
       returnTo: window.location.origin
     })

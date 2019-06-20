@@ -40,7 +40,10 @@ class Upload extends React.Component {
   }
 
   makeUploadRequest = async (fileData) => {
-    const uploadUrl = `${process.env.REACT_APP_FILE_UPLOAD_URL}?token=${process.env.REACT_APP_UPLOAD_TOKEN}`;
+    // Not going to work obviously...
+    // Will send it to the API and have the API send it to the upload service
+    // const uploadUrl = `${process.env.REACT_APP_FILE_UPLOAD_URL}?token=${process.env.REACT_APP_UPLOAD_TOKEN}`;
+    const uploadUrl = `${process.env.REACT_APP_API_URL}/media`
     const response = await fetch(uploadUrl, {method: 'POST', body: fileData});
 
     return await response.json();
