@@ -9,7 +9,7 @@ export const LoginStyles = () => ({
     backgroundSize: 'cover'
   },
   container: {
-    paddingTop: '32%',
+    paddingTop: '25%',
     paddingLeft: '30px',
     paddingRight: '30px',
     "@media screen and (orientation:landscape)": {
@@ -25,6 +25,7 @@ export const LoginStyles = () => ({
     color: 'white',
     display: 'flex',
     justifyContent: 'flex-end',
+    marginBottom: '15px',
   },
   subtitleText: {
     fontSize: '1.1em',
@@ -82,5 +83,22 @@ export const LoginStyles = () => ({
     textAlign: 'center',
     fontWeight: 'bold',
     color: 'red'
+  },
+  socialHr: {
+    width: '40%',
+    borderBottomStyle: 'solid',
+    borderBottomColor: '#f2f2f2',
+    borderWidth: '1px',
+    opacity: 0.6,
+  },
+  socialContainer: {
+    marginTop: '20px',
+    display: 'flex',
+    justifyContent: 'space-evenly'
+  },
+  socialLogins: {
+    height: '50px',
+    width: '40px',
+    color: 'white',
   }
 });

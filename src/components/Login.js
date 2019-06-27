@@ -4,6 +4,10 @@ import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import { constants } from '../constants';
 import { LoginStyles } from '../styles/LoginStyles';
+import {
+  IconButton,
+} from '@material-ui/core';
+import { FaInstagram, FaFacebook, FaGoogle } from 'react-icons/fa';
 
 class Login extends React.Component {
   state = {
@@ -24,6 +28,18 @@ class Login extends React.Component {
     } else {
       this.setState({ loginErr: 'Missing some fields.' })
     }
+  }
+
+  loginViaGoogle() {
+    this.props.auth.loginViaGoogle()
+  }
+
+  loginViaFacebook() {
+    this.props.auth.loginViaFacebook()
+  }
+
+  loginViaInstagram() {
+    this.props.auth.loginViaInstagram()
   }
 
   async signup() {
@@ -140,27 +156,37 @@ class Login extends React.Component {
                 {login && <span>Login</span>}
                 {!login && <span>Sign Up</span>}
               </Button>
-              <div className={classes.subtitle}>
-                {!login && (
-                  <p>Already have an account?
-                    <span
-                      className={classes.signinText}
-                      onClick={e => this.setState({login: !login})}
-                    > Sign in
-                    </span>
-                  </p>
-                )}
-                {login && (
-                  <p>Need an account?
-                    <span
-                      className={classes.signinText}
-                      onClick={e => this.setState({login: !login})}
-                    > Sign up
-                    </span>
-                  </p>
-                )}
-              </div>
             </form>
+          </div>
+          <div className={ classes.subtitle }>
+            {!login && (
+              <p>Already have an account?
+                <span
+                  className={ classes.signinText }
+                  onClick={ e => this.setState({ login: !login })}
+                > Sign in
+                </span>
+              </p>
+            )}
+            {login && (
+              <p>Need an account?
+                <span
+                  className={ classes.signinText }
+                  onClick={e => this.setState({ login: !login })}
+                > Sign up
+                </span>
+              </p>
+            )}
+          </div>
+          <div className={ classes.formWrapper }>
+            <div className={ classes.socialHr }></div>
+            <div style={{ color: '#f2f2f2', opacity: 0.7, textAlign: 'center', width: '20%', marginBottom: '-0.5em' }}>Or With</div>
+            <div className={ classes.socialHr }></div>
+          </div>
+          <div className={ classes.socialContainer }>
+            <FaFacebook className={ classes.socialLogins } onClick={ () => this.loginViaFacebook() }></FaFacebook>
+            <FaGoogle className={ classes.socialLogins } onClick={ () => this.loginViaGoogle() }></FaGoogle>
+            <FaInstagram className={ classes.socialLogins } onClick={() => this.loginViaInstagram() }></FaInstagram>
           </div>
         </div>
       </div>

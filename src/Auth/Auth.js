@@ -34,6 +34,28 @@ export default class Auth {
       reject(err)
     }))
   }
+
+  loginViaGoogle() {
+    this.auth0.authorize({
+      audience: process.env.REACT_APP_AUTH0_AUDIENCE,
+      connection: 'google-oauth2'
+    })
+  }
+
+  loginViaFacebook() {
+    this.auth0.authorize({
+      audience: process.env.REACT_APP_AUTH0_AUDIENCE,
+      connection: 'facebook'
+    })
+  }
+
+  loginViaInstagram() {
+    this.auth0.authorize({
+      audience: process.env.REACT_APP_AUTH0_AUDIENCE,
+      connection: 'instagram'
+    })
+  }
+
   // TODO: This works but feels kind of sloppy? Does it need to be a promise in order to get the response from
   // the callback?
   signup(name, email, password) {
@@ -56,6 +78,7 @@ export default class Auth {
   handleAuthentication() {
     this.auth0.parseHash((err , authResult) => {
       if (authResult && authResult.accessToken && authResult.idToken) {
+        console.log(authResult);
         // TODO: Move to env
         const url = 'http://localhost:4000/authenticate'
         // TODO: Fetch cookie method - needs to force promise to end perhaps before the redirect to /meditations
@@ -70,13 +93,13 @@ export default class Auth {
         }).then(response => {
           if (response.ok) {
             console.log('cookie set?')
+            // shjould do the redirect here?
+            console.log('setting session')
+            history.replace('/meditations')
           }
         }).catch(error => {
           console.log(error)
         })
-
-        console.log('setting session')
-        history.replace('/meditations')
       } else if (err) {
         history.replace('/');
         console.log(err);
