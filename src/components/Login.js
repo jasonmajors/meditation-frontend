@@ -180,13 +180,13 @@ class Login extends React.Component {
           </div>
           <div className={ classes.formWrapper }>
             <div className={ classes.socialHr }></div>
-            <div style={{ color: '#f2f2f2', opacity: 0.7, textAlign: 'center', width: '20%', marginBottom: '-0.5em' }}>Or With</div>
+            <div style={{ color: '#f2f2f2', opacity: 0.7, textAlign: 'center', width: '10%', marginBottom: '-0.5em' }}>Or</div>
             <div className={ classes.socialHr }></div>
           </div>
           <div className={ classes.socialContainer }>
             <FaFacebook className={ classes.socialLogins } onClick={ () => this.loginViaFacebook() }></FaFacebook>
-            <FaGoogle className={ classes.socialLogins } onClick={ () => this.loginViaGoogle() }></FaGoogle>
             <FaInstagram className={ classes.socialLogins } onClick={() => this.loginViaInstagram() }></FaInstagram>
+            <FaGoogle className={ classes.socialLogins } onClick={ () => this.loginViaGoogle() }></FaGoogle>
           </div>
         </div>
       </div>

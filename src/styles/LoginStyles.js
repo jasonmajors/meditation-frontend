@@ -85,7 +85,7 @@ export const LoginStyles = () => ({
     color: 'red'
   },
   socialHr: {
-    width: '40%',
+    width: '45%',
     borderBottomStyle: 'solid',
     borderBottomColor: '#f2f2f2',
     borderWidth: '1px',
