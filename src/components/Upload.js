@@ -23,8 +23,13 @@ class Upload extends React.Component {
 
     this.makeUploadRequest(fileData)
       .then(data => {
-        const urls = this.parseResponse(data, imageFile, audioFile)
-        this.props.onUploadFinish(urls)
+        if (!data.error) {
+          console.log('success')
+          const urls = this.parseResponse(data, imageFile, audioFile)
+          this.props.onUploadFinish(urls)
+        } else {
+          this.props.onUploadError(data.error)
+        }
       })
       .catch(error => this.props.onUploadError(error));
   }
@@ -40,13 +45,11 @@ class Upload extends React.Component {
   }
 
   makeUploadRequest = async (fileData) => {
-    // Not going to work obviously...
     // Will send it to the API and have the API send it to the upload service
-    // const uploadUrl = `${process.env.REACT_APP_FILE_UPLOAD_URL}?token=${process.env.REACT_APP_UPLOAD_TOKEN}`;
     const uploadUrl = `${process.env.REACT_APP_API_URL}/media`
     const response = await fetch(uploadUrl, {method: 'POST', body: fileData});
 
-    return await response.json();
+    return response.json();
   }
 
   // TODO: Could dynamically render the inputs based off of a prop
