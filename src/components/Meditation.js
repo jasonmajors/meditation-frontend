@@ -4,6 +4,7 @@ import { Query } from 'react-apollo';
 import { withStyles } from '@material-ui/core/styles';
 import SwipeableMenu from './SwipeableMenu';
 import AudioPlayer from './AudioPlayer';
+import LoadingPage from './LoadingPage';
 
 const styles = theme =>  ({
   fullScreen: {
@@ -52,7 +53,7 @@ class Meditation extends React.Component {
           <Query query={MEDITATION_QUERY} variables={{ id: meditationId }}>
             {
               ({loading, error, data }) => {
-                if (loading) return <div>Fetching</div>
+                if (loading) return <LoadingPage />
                 if (error) return <div>Error</div>
 
                 const meditation = data.meditation;

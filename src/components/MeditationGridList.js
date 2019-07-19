@@ -9,6 +9,7 @@ import PlayArrowIcon from '@material-ui/icons/PlayArrow';
 import gql from 'graphql-tag';
 import { Query } from 'react-apollo';
 import NavBar from './NavBar';
+import LoadingPage from './LoadingPage';
 
 const styles = theme => ({
   root: {
@@ -49,7 +50,7 @@ function TitlebarGridList(props) {
       <Query query={MEDITATIONS_QUERY} variables={ getQueryVariables() }>
         {
           ({loading, error, data }) => {
-            if (loading) return <div>Fetching</div>
+            if (loading) return <LoadingPage />
             if (error) return <div>Error</div>
 
             const meditations = data.meditations
