@@ -9,7 +9,7 @@ export default class Auth {
   auth0 = new auth0.WebAuth({
     domain: 'knurling.auth0.com',
     clientID: 'steq6wxAOZ2cZl1ii1M3sW5wUqYNsjj5',
-    redirectUri: 'http://knurling.local:3000/callback',
+    redirectUri: process.env.REACT_APP_AUTH0_REDIRECT_URI,
     responseType: 'token id_token',
     scope: 'openid'
   });
@@ -80,7 +80,8 @@ export default class Auth {
       if (authResult && authResult.accessToken && authResult.idToken) {
         console.log(authResult);
         // TODO: Move to env
-        const url = 'http://localhost:4000/authenticate'
+        const url = process.env.REACT_APP_API_URL + '/authenticate'
+        // const url = 'http://localhost:4000/authenticate'
         // TODO: Fetch cookie method - needs to force promise to end perhaps before the redirect to /meditations
         fetch(url, {
           method: 'POST',
