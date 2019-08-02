@@ -24,7 +24,7 @@ const NavBar = (props) => {
  // TODO: The AccountCircle icon button needs a menu. See example in docs.
   return (
     <div className={classes.root}>
-      <AppBar position="static" color="secondary">
+      <AppBar position="sticky" color="primary">
         <Toolbar disableGutters={true}>
           <SwipeableMenu />
           <Typography variant="h6" color="inherit" className={classes.grow}>
